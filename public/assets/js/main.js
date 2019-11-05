@@ -1,3 +1,5 @@
+$(document).ready(()=>{
+
 (function($) {
   "use strict"; // Start of use strict
 
@@ -53,6 +55,8 @@ $(window).scroll(function(e){
     $el.removeClass('stickySearch--sticky')
   }
 });
+
+})
 
 $(document).ready(function() {
   $('select').select2();
