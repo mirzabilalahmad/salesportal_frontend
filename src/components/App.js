@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import logo from '../assets/images/logo.svg';
-import '../assets/css/App.css';
-import Nav from './layouts/Navbar'
+
+import '../../public/assets/css/App.css';
+import Nav from './layouts/Navbar';
+import Header from './Header';
 
 class App extends Component {
   render() {
     return (
-      // <Nav />
-      <Nav />
+      <div><Nav />
+      <Header/></div>
+       
+
       
     );
   }
