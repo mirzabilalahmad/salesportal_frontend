@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import '../../public/assets/css/mystyle.css'
 export class SearchBar extends Component {
     render() {
-        state={}
+   
         return (
             <div className="row box-shadow hideXS stickySearch">
             <div className="col-xl-4 col-sm-4 nopadd">
