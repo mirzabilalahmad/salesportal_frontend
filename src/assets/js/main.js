@@ -1,7 +1,3 @@
-// import './global_jquery.js'
-import $ from 'jquery';
-import './select2.min';
-
 $(document).ready(()=>{
 
 (function($) {
@@ -31,7 +27,7 @@ $(document).ready(()=>{
   // Collapse the navbar when page is scrolled
   $(window).scroll(navbarCollapse);
 
-})($); // End of use strict
+})(jQuery); // End of use strict
 
 //new hover effect
 $('.dh-container').directionalHover();
