@@ -9,6 +9,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import img from '../assets/images/portfolio/portfolio3.jpg';
 
 // const useStyles = makeStyles({
 //   list: {
@@ -23,13 +24,38 @@ import MailIcon from '@material-ui/icons/Mail';
 class EditDrawer extends Component{
  
   state={
-    customer:null
+    data: {},
+    customerId: null,
+    loading: false
     
   }
 
-  componentWillReceiveProps(props){
-    this.state.customer =props.customer;
-    console.log('updated props',this.props.customer);
+  componentWillReceiveProps(newProps){
+    if(newProps.customerId) {
+      this.setState({
+        customerId: newProps.customerId,
+        loading: true
+      })
+      setTimeout(() => {
+        this.setState({
+          data: {
+            id:1,
+            name:'Name',
+            location:'location',
+            industryType:'industry type',
+            favourite:false,
+            image: img,
+          },
+          loading: false
+        })
+      }, 1000)  
+    } else {
+      this.setState({
+        data: {},
+        customerId: null,
+        loading: false
+      })
+    }
   }
 
 
@@ -62,19 +88,21 @@ class EditDrawer extends Component{
 
 
   render(){
-    {var open = false
-    if(this.state.customer != null) open = true
-    console.log('open : ',open)
+    if(!this.state.customerId) {
+      return (
+        <div></div>
+      )
+    } else if(this.state.loading) {
+      return (
+        <Drawer anchor="right" open={true}>
+          <div>Loading...</div>
+        </Drawer>
+      )
     }
-
     return (
-   
       <div>
-  
-     
-         <Drawer anchor="right" open={open} >
+         <Drawer anchor="right" open={true} >
            {this.sideList()}
-           
          </Drawer>
        </div>
      );
