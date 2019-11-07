@@ -6,6 +6,7 @@ import Footer from './layouts/Footer';
 import Portfolio from './Portfolio';
 import Header from './Header';
 import SearchBar from './SearchBar';
+import EditDrawer from './EditDrawer'
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
       <div>
         <Nav />
       <Header/>
+      
       <Portfolio />
       <Footer />
       </div>
