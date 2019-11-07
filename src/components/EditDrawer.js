@@ -9,19 +9,28 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import TextField from '@material-ui/core/TextField';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+
+
 
 // const useStyles = makeStyles({
 //   list: {
-//     width: 250,
+//     width: 400,
 //   },
 //   fullList: {
 //     width: 'auto',
 //   },
 // });
-// const classes = useStyles();
+// classes = useStyles();
+
 
 class EditDrawer extends Component{
  
+ 
+
   state={
     customer:null
     
@@ -34,19 +43,80 @@ class EditDrawer extends Component{
 
 
   sideList = () => (
-    <div
+    <div 
+    // className={classes.list}
       
       role="presentation"
     >
-      <Button variant="contained" onClick={()=>this.props.disableCustomer()} >back</Button>
-      <List>
+      <AppBar position="static">
+        <Toolbar> 
+        <Typography variant="h10">
+            Edit Customer
+          </Typography>  
+        <Button variant="contained" onClick={()=>this.props.disableCustomer()} >Close</Button>
+        </Toolbar>
+      </AppBar>
+      {/* <Button variant="contained" onClick={()=>this.props.disableCustomer()} >Go Back</Button> */}
+      <form noValidate autoComplete="off">
+        
+      <div>
+        <TextField
+          id="outlined-basic"
+          label="Name: "
+          margin="normal"
+          variant="outlined"
+        />
+      </div>
+     
+   
+      <div>
+        <TextField
+          id="outlined-basic"
+          label="Location:"
+          margin="normal"
+          variant="outlined"
+        />
+      </div>
+      <div>
+        <TextField
+          id="outlined-basic"
+          label="Industry Type:"
+          margin="normal"
+          variant="outlined"
+        />
+      </div>
+      <div>
+        <TextField
+          id="outlined-basic"
+          label="URL:"
+          margin="normal"
+          variant="outlined"
+        />
+      </div>
+      <input
+        accept="image/*"
+       
+        id="contained-button-file"
+        multiple
+        type="file"
+      />
+      <label htmlFor="contained-button-file">
+        <Button variant="contained" component="span" >
+          Upload
+        </Button>
+      </label>
+    </form>
+      <List >
+
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
+
       </List>
+
       <Divider />
       <List>
         {['All mail', 'Trash', 'Spam'].map((text, index) => (

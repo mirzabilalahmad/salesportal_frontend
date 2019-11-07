@@ -5,7 +5,8 @@ import Nav from './layouts/Navbar';
 import Footer from './layouts/Footer';
 import Portfolio from './Portfolio';
 import Header from './Header';
-import SearchBar from './SearchBar';
+import SearchBar from './abc';
+import ABC from './SearchBar';
 import EditDrawer from './EditDrawer'
 
 class App extends Component {
@@ -17,6 +18,7 @@ class App extends Component {
       
       <Portfolio />
       <Footer />
+      
       </div>
 
       
