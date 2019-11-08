@@ -15,6 +15,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 
+import img from '../assets/images/portfolio/portfolio3.jpg';
 
 // const useStyles = makeStyles({
 //   list: {
@@ -27,127 +28,182 @@ import Typography from '@material-ui/core/Typography';
 // classes = useStyles();
 
 
-class EditDrawer extends Component{
- 
- 
+class EditDrawer extends Component {
 
-  state={
-    customer:null
-    
+
+
+  state = {
+    data: {},
+    customerId: null,
+    loading: false
+
   }
 
-  componentWillReceiveProps(props){
-    this.state.customer =props.customer;
-    console.log('updated props',this.props.customer);
+  componentWillReceiveProps(newProps) {
+    if (newProps.customerId) {
+      this.setState({
+        customerId: newProps.customerId,
+        loading: true
+      })
+      setTimeout(() => {
+        this.setState({
+          data: {
+            id: 1,
+            name: 'Name',
+            location: 'location',
+            industryType: 'industry type',
+            favourite: false,
+            image: img,
+          },
+          loading: false
+        })
+      }, 1000)
+    } else {
+      this.setState({
+        data: {},
+        customerId: null,
+        loading: false
+      })
+    }
   }
 
 
   sideList = () => (
-    <div 
-    // className={classes.list}
-      
-      role="presentation"
+
+    <div
+      //  className={classes.list}
+      style={{ width: 600 }}
     >
       <AppBar position="static">
-        <Toolbar> 
-        <Typography variant="h10">
+
+        <Toolbar>
+      
+        <div style={{width:'50%'}}>
+
+        <Typography variant="p">
             Edit Customer
-          </Typography>  
-        <Button variant="contained" onClick={()=>this.props.disableCustomer()} >Close</Button>
+          </Typography>
+        
+        </div>
+        
+        <div style={{width:'50%', textAlign:"right"}}>
+        <Button variant="contained" onClick={() => this.props.disableCustomer()}  >Close</Button>
+          
+        </div>
+        
+            
+
+         
+         
+          
         </Toolbar>
+
       </AppBar>
       {/* <Button variant="contained" onClick={()=>this.props.disableCustomer()} >Go Back</Button> */}
-      <form noValidate autoComplete="off">
-        
-      <div>
-        <TextField
-          id="outlined-basic"
-          label="Name: "
-          margin="normal"
-          variant="outlined"
+      <form noValidate autoComplete="off" style={{ textAlign: "center" }}>
+        <div>
+          <TextField
+            id="outlined-basic"
+            label="Name: "
+            margin="normal"
+            variant="outlined"
+            value={this.state.data.name}
+          />
+        </div>
+        <div>
+          <TextField
+            id="outlined-basic"
+            label="Location:"
+            margin="normal"
+            variant="outlined"
+            value={this.state.data.location}
+          />
+        </div>
+        <div>
+          <TextField
+            id="outlined-basic"
+            label="Industry Type:"
+            margin="normal"
+            variant="outlined"
+            value={this.state.data.industryType}
+          />
+        </div>
+        <div>
+
+          <TextField
+            id="outlined-basic"
+            label="URL:"
+            margin="normal"
+            variant="outlined"
+            value={this.state.data.url}
+          />
+        </div>
+        <Divider /> <br />
+        <input
+          accept="image/*"
+          style={{ display: 'none', }}
+          id="contained-button-file"
+          multiple
+          type="file"
         />
-      </div>
-     
-   
-      <div>
-        <TextField
-          id="outlined-basic"
-          label="Location:"
-          margin="normal"
-          variant="outlined"
-        />
-      </div>
-      <div>
-        <TextField
-          id="outlined-basic"
-          label="Industry Type:"
-          margin="normal"
-          variant="outlined"
-        />
-      </div>
-      <div>
-        <TextField
-          id="outlined-basic"
-          label="URL:"
-          margin="normal"
-          variant="outlined"
-        />
-      </div>
-      <input
-        accept="image/*"
-       
-        id="contained-button-file"
-        multiple
-        type="file"
-      />
-      <label htmlFor="contained-button-file">
-        <Button variant="contained" component="span" >
-          Upload
+        <label htmlFor="contained-button-file">
+          <Button variant="contained" component="span" >
+            Upload
         </Button>
-      </label>
-    </form>
-      <List >
+        </label>
+        <div>
+          <img src={img} />
+        </div>
+      </form>
 
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
 
-      </List>
 
       <Divider />
-      <List>
+      {/* <List>
         {['All mail', 'Trash', 'Spam'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
-      </List>
+      </List> */}
     </div>
+
+
   );
 
 
 
-  render(){
-    {var open = false
-    if(this.state.customer != null) open = true
-    console.log('open : ',open)
-    }
+  render() {
+    // let stylee = {
+    //   drawer:{width: 900},
+    //   button:{
 
+    //   }
+    // }
+
+    if (!this.state.customerId) {
+      return (
+        <div></div>
+      )
+    } else if (this.state.loading) {
+      return (
+        <Drawer anchor="right" open={true}>
+          <div style={{ width: 600 }}><h1>Loading...</h1></div>
+        </Drawer>
+      )
+    }
     return (
-   
-      <div>
-  
-     
-         <Drawer anchor="right" open={open} >
-           {this.sideList()}
-           
-         </Drawer>
-       </div>
-     );
+
+
+      <Drawer anchor="right" open={true} >
+        {this.sideList()}
+        {/* <div style={{width:"900"}}>adsda</div> */}
+      </Drawer>
+
+
+
+    );
   }
 
 }

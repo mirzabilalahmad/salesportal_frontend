@@ -6,29 +6,40 @@ import img from '../assets/images/portfolio/portfolio3.jpg';
 
 export class Portfolio extends Component {
     state={
-
-        customer:null
+        customers: [{
+            id:1,
+            name:'Name',
+            location:'location',
+            industryType:'industry type',
+            favourite:false,
+            image: img,
+        }],
+        updateCustomerId: null
     }
     enableEditCustomer =(id)=>{
         //fetch customer detail given id
         this.setState({
-            customer:{
-                id:1,
-                name:'Name',
-                location:'location',
-                industryType:'industry type',
-                favourite:false,
-                image: img,
-            }
+            updateCustomerId: id
         })
         console.log('enableUpdate called..')
 
     }
     disableEditCustomer = ()=>{
         this.setState({
-            customer:null
+            updateCustomerId:null
         })
 
+    }
+
+    renderCustomers = () => {
+        if(this.state.customers.length == 0){
+            return (
+                <h4> No Customer found</h4>
+            )
+        } 
+        return this.state.customers.map((customer) => {
+            return <PortfolioItem data={customer} editCustomer={this.enableEditCustomer}/>
+        })
     }
     
     render() {
@@ -39,8 +50,8 @@ export class Portfolio extends Component {
 
                         <ResultBar />
                         <div className="row mt-4">
-                        <EditDrawer customer={this.state.customer} disableCustomer={this.disableEditCustomer}/>
-                        <PortfolioItem editCustomer={this.enableEditCustomer}/>
+                        <EditDrawer customerId={this.state.updateCustomerId} disableCustomer={this.disableEditCustomer}/>
+                        {this.renderCustomers()}
 
                         </div>
                     </div>
