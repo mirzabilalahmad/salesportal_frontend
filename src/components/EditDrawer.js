@@ -41,23 +41,46 @@ class EditDrawer extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.customerId) {
-      this.setState({
-        customerId: newProps.customerId,
-        loading: true
-      })
-      setTimeout(() => {
-        this.setState({
-          data: {
-            id: 1,
-            name: 'Name',
-            location: 'location',
-            industryType: 'industry type',
-            favourite: false,
-            image: img,
-          },
-          loading: false
-        })
-      }, 1000)
+      
+      fetch("http://salesportal1.local/api/customers/1/edit")
+          .then(res => res.json())
+          .then(
+              
+            (result) => {
+                console.log('result: ',result)
+              this.setState({
+
+                data: result,
+                customerId:newProps.customerId,
+                isLoaded:true,
+              });
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+                console.log('error',error)
+              this.setState({
+                isLoaded: true,
+                error
+              });
+            }
+          )
+        
+      
+      // setTimeout(() => {
+      //   this.setState({
+      //     data: {
+      //       id: 1,
+      //       name: 'Name',
+      //       location: 'location',
+      //       industry_type: 'industry type',
+      //       favourite: false,
+      //       image: img,
+      //     },
+      //     loading: false
+      //   })
+      // }, 1000)
     } else {
       this.setState({
         data: {},
@@ -106,7 +129,7 @@ class EditDrawer extends Component {
             id="outlined-basic"
             label="Name: "
             margin="normal"
-            variant="outlined"
+    
             value={this.state.data.name}
           />
         </div>
@@ -115,7 +138,7 @@ class EditDrawer extends Component {
             id="outlined-basic"
             label="Location:"
             margin="normal"
-            variant="outlined"
+       
             value={this.state.data.location}
           />
         </div>
@@ -124,8 +147,8 @@ class EditDrawer extends Component {
             id="outlined-basic"
             label="Industry Type:"
             margin="normal"
-            variant="outlined"
-            value={this.state.data.industryType}
+        
+            value={this.state.data.industry_type}
           />
         </div>
         <div>
@@ -134,8 +157,8 @@ class EditDrawer extends Component {
             id="outlined-basic"
             label="URL:"
             margin="normal"
-            variant="outlined"
-            value={this.state.data.url}
+       
+            value={this.state.data.web_url}
           />
         </div>
         <Divider /> <br />
@@ -152,7 +175,7 @@ class EditDrawer extends Component {
         </Button>
         </label>
         <div>
-          <img src={img} />
+          <img src={this.state.data.img_url} />
         </div>
       </form>
 

@@ -6,16 +6,39 @@ import img from '../assets/images/portfolio/portfolio3.jpg';
 
 export class Portfolio extends Component {
     state={
-        customers: [{
-            id:1,
-            name:'Name',
-            location:'location',
-            industryType:'industry type',
-            favourite:false,
-            image: img,
-        }],
-        updateCustomerId: null
+        customers: [],
+        updateCustomerId: null,
+        error:null,
+        isLoaded:false
     }
+
+    componentDidMount() {
+        fetch("http://salesportal1.local/api/customers")
+          .then(res => res.json())
+          .then(
+              
+            (result) => {
+                console.log('result: ',result)
+              this.setState({
+                isLoaded:true,
+                customers: result
+              });
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+                console.log('error',error)
+              this.setState({
+                isLoaded: true,
+                error
+              });
+            }
+          )
+      }
+    
+
+
     enableEditCustomer =(id)=>{
         //fetch customer detail given id
         this.setState({
@@ -43,6 +66,7 @@ export class Portfolio extends Component {
     }
     
     render() {
+        {console.log('render called')}
         return (
             <div>
                 <section className="bg-light page-section" id="portfolio">

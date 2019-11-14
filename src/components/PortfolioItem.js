@@ -10,12 +10,12 @@ export class PortfolioItem extends Component {
             <div className="col-lg-4 col-sm-6 portfolio-item">
                 <div className="dh-container light-boxshadow flexi-cont">
                     <div>
-                        <img className="card-img" src={this.props.data.image} alt="" />
+                        <img className="card-img" src={this.props.data.img_url} alt="" />
                     </div>
                     
                     <div className="dh-overlay">
                         <h5>{this.props.data.name}</h5>
-                        <p>{this.props.data.industryType}</p>
+                        <p>{this.props.data.industry_type}</p>
                             <a href="javascript:void(0)" data-toggle="modal" data-target="#portfolioPopup" >
                             <i className="fa fa-search-plus circle_icon"></i></a>  &nbsp;
                             <a href="javascript:void(0)"><i className="fa fa-link circle_icon"></i></a> &nbsp;
@@ -30,7 +30,7 @@ export class PortfolioItem extends Component {
                     <p className="text-muted mt-3 mb-0">
                         <img src="img/location.png" className="alignIco" alt="" />{this.props.data.location}
                 <span className="float-right">
-                            <img src="img/category.png" className="alignIco" alt="" /> &nbsp;{this.props.data.industryType}
+                            <img src="img/category.png" className="alignIco" alt="" /> &nbsp;{this.props.data.industry_type}
                 </span>
                     </p>
                 </div>
