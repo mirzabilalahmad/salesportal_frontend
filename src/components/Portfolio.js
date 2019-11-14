@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ResultBar from './ResultBar';
 import PortfolioItem from './PortfolioItem';
 import EditDrawer from './EditDrawer';
+import {initializeHover} from './utils/DirectionalHover';
 import img from '../assets/images/portfolio/portfolio3.jpg';
 
 export class Portfolio extends Component {
@@ -15,18 +16,15 @@ export class Portfolio extends Component {
     componentDidMount() {
         fetch("http://salesportal1.local/api/customers")
           .then(res => res.json())
-          .then(
-              
-            (result) => {
+          .then((result) => {
                 console.log('result: ',result)
               this.setState({
                 isLoaded:true,
                 customers: result
+              }, () => {
+                initializeHover();
               });
             },
-            // Note: it's important to handle errors here
-            // instead of a catch() block so that we don't swallow
-            // exceptions from actual bugs in components.
             (error) => {
                 console.log('error',error)
               this.setState({

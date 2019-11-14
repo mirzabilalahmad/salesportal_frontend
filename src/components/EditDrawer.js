@@ -10,8 +10,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import logo from './loading.gif'
-import TF from './utils/textField';
+import TextField from './utils/textField';
 import axios from'axios';
+import $ from 'jquery';
 
 import img from '../assets/images/portfolio/portfolio3.jpg';
 
@@ -29,7 +30,11 @@ class EditDrawer extends Component {
 
 
   state = {
-    data: {},
+    name:'',
+    location: '',
+    web_url: '',
+    industry_type:'',
+    img_url: '',
     customerId: null,
     loading: false,
     selectedFile:null
@@ -39,7 +44,7 @@ class EditDrawer extends Component {
   componentWillReceiveProps(newProps) {
     if (newProps.customerId) {
       
-      fetch("http://salesportal1.local/api/customers/1/edit")
+      fetch(`http://salesportal1.local/api/customers/${newProps.customerId}/edit`)
           .then(res => res.json())
           .then(
               
@@ -47,7 +52,11 @@ class EditDrawer extends Component {
                 console.log('result: ',result)
               this.setState({
 
-                data: result,
+                name: result.name,
+                location: result.location,
+                web_url: result.web_url,
+                industry_type:result.industry_type,
+                img_url: result.img_url,
                 customerId:newProps.customerId,
                 isLoaded:true,
               });
@@ -80,12 +89,27 @@ class EditDrawer extends Component {
       // }, 1000)
     } else {
       this.setState({
-        data: {},
+        name:'',
+        location: '',
+        web_url: '',
+        industry_type:'',
+        img_url: '',
         customerId: null,
         loading: false
       })
     }
   }
+
+  handleChange =( event)=>{
+    console.log('handleChnage call',event.target.name);
+    this.setState({
+      
+        [event.target.name]:event.target.value
+      
+    }
+    )
+  }
+
   sideList = () => (
     <div
       //  className={classes.list}
@@ -109,11 +133,11 @@ class EditDrawer extends Component {
       </AppBar>
       {/* <Button variant="contained" onClick={()=>this.props.disableCustomer()} >Go Back</Button> */}
       <form noValidate autoComplete="off" style={{ textAlign: "center" }}>
-        <div>
-          <TF label="Name: " value={this.state.data.name} />
-          <TF label="Location: " value={this.state.data.location} />
-          <TF label="Industry Type: " value={this.state.data.industryType} />
-          <TF label="URL: " value={this.state.data.url} />
+        <div className="p-2">
+          <TextField label="Name " value={this.state.name} change={this.handleChange} name ="name" />
+          <TextField label="Location " value={this.state.location  } change={this.handleChange} name ="location" />
+          <TextField label="Industry Type " value={this.state.industry_type} change={this.handleChange}  name ="industry_type"/>
+          <TextField label="URL " value={this.state.web_url} change={this.handleChange} name ="web_url"/>
         </div>
         <Divider /> <br />
         <div>
@@ -127,39 +151,49 @@ class EditDrawer extends Component {
           ref={fileInput => this.fileInput = fileInput}
         />
 
-          <img src={img} />
+          <img id="customer-screenshot" src={this.state.img_url} key={this.state.img_url} width="500" height="300" />
           <Button style={{}} onClick={()=>this.fileInput.click()} >
          <span >   <i className="fa fa-pencil-square-o"></i></span>
          
          </Button>
         </div>
         <Divider /> <br />
-      <Button variant="contained" color="secondary" >Cancel</Button>&nbsp; &nbsp;&nbsp;
-      <Button variant="contained" color="secondary" onClick={this.fileUploadHandler} >Update</Button>
+        <div className="text-right pr-3 mt-3">
+          <Button variant="contained" color="secondary" className="mr-2">Cancel</Button>
+          <Button variant="contained" color="primary" onClick={this.fileUploadHandler} >Update</Button>
+        </div>
       </form>
     </div>
   );
   fileSelectedHandler = event =>{
-    
+    console.log('file', event.target.files[0])
     this.setState({
       selectedFile:event.target.files[0]
     });
-    console.log('file handler');
+    var reader = new FileReader();
+    
+    reader.onload = function(e) {
+      $('#customer-screenshot').attr('src', e.target.result);
+    }
+    
+    reader.readAsDataURL(event.target.files[0]);
   }
   fileUploadHandler=()=>{
     const fd= new FormData();
     
     fd.append('image', this.state.selectedFile);
+    console.log(this.state.selectedFile);
     // fd.append('key1', 'val1' );
     // fd.append('key2', 'val2');
     // axios.put('http://salesportal.com/api/customers/1',fd).then(res =>{
     //   console.log(res);
     //   console.log('file handler');
     // });
-    axios.post('http://salesportal.com/api/customers',fd).then(res =>{
+    axios.post('http://salesportal1.local/api/customers',fd).then(res =>{
       console.log(res);
       console.log('file upload');
-    });
+    })
+    .catch(err=> console.log(err));
   }
 
   render() {

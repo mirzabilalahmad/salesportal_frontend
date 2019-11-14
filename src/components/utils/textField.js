@@ -5,11 +5,13 @@ export class textField extends Component {
         return (
             <div>
                 <TextField
-                    id="outlined-basic"
+                    fullWidth={true}
+                    id={this.props.name}
                     margin="normal"
-                    variant="outlined" 
+                    name = {this.props.name}
                     label={this.props.label}  
                     value={this.props.value} 
+                    onChange ={this.props.change}
                 />
             </div>
         )
