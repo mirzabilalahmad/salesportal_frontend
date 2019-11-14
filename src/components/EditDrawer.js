@@ -5,15 +5,13 @@ import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import TextField from '@material-ui/core/TextField';
+import LoadingScreen from 'react-loading-screen';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-
+import logo from './loading.gif'
+import TF from './utils/textField';
+import axios from'axios';
 
 import img from '../assets/images/portfolio/portfolio3.jpg';
 
@@ -26,8 +24,6 @@ import img from '../assets/images/portfolio/portfolio3.jpg';
 //   },
 // });
 // classes = useStyles();
-
-
 class EditDrawer extends Component {
 
 
@@ -35,7 +31,8 @@ class EditDrawer extends Component {
   state = {
     data: {},
     customerId: null,
-    loading: false
+    loading: false,
+    selectedFile:null
 
   }
 
@@ -66,113 +63,81 @@ class EditDrawer extends Component {
       })
     }
   }
-
-
   sideList = () => (
-
     <div
       //  className={classes.list}
       style={{ width: 600 }}
     >
       <AppBar position="static">
-
         <Toolbar>
-      
-        <div style={{width:'50%'}}>
-
-        <Typography variant="p">
-            Edit Customer
+          <div style={{ width: '50%' }}>
+            <Typography variant="p">
+              Edit Customer
           </Typography>
-        
-        </div>
-        
-        <div style={{width:'50%', textAlign:"right"}}>
-        <Button variant="contained" onClick={() => this.props.disableCustomer()}  >Close</Button>
-          
-        </div>
-        
-            
 
-         
-         
-          
+          </div>
+
+          <div style={{ width: '50%', textAlign: "right" }}>
+            <Button variant="contained" onClick={() => this.props.disableCustomer()}  >Close</Button>
+
+          </div>
         </Toolbar>
 
       </AppBar>
       {/* <Button variant="contained" onClick={()=>this.props.disableCustomer()} >Go Back</Button> */}
       <form noValidate autoComplete="off" style={{ textAlign: "center" }}>
         <div>
-          <TextField
-            id="outlined-basic"
-            label="Name: "
-            margin="normal"
-            variant="outlined"
-            value={this.state.data.name}
-          />
-        </div>
-        <div>
-          <TextField
-            id="outlined-basic"
-            label="Location:"
-            margin="normal"
-            variant="outlined"
-            value={this.state.data.location}
-          />
-        </div>
-        <div>
-          <TextField
-            id="outlined-basic"
-            label="Industry Type:"
-            margin="normal"
-            variant="outlined"
-            value={this.state.data.industryType}
-          />
-        </div>
-        <div>
-
-          <TextField
-            id="outlined-basic"
-            label="URL:"
-            margin="normal"
-            variant="outlined"
-            value={this.state.data.url}
-          />
+          <TF label="Name: " value={this.state.data.name} />
+          <TF label="Location: " value={this.state.data.location} />
+          <TF label="Industry Type: " value={this.state.data.industryType} />
+          <TF label="URL: " value={this.state.data.url} />
         </div>
         <Divider /> <br />
+        <div>
+
         <input
           accept="image/*"
-          style={{ display: 'none', }}
-          id="contained-button-file"
-          multiple
+         style={{ display: 'none', }}
+         // id="contained-button-file"
           type="file"
+          onChange={this.fileSelectedHandler}
+          ref={fileInput => this.fileInput = fileInput}
         />
-        <label htmlFor="contained-button-file">
-          <Button variant="contained" component="span" >
-            Upload
-        </Button>
-        </label>
-        <div>
+
           <img src={img} />
+          <Button style={{}} onClick={()=>this.fileInput.click()} >
+         <span >   <i className="fa fa-pencil-square-o"></i></span>
+         
+         </Button>
         </div>
+        <Divider /> <br />
+      <Button variant="contained" color="secondary" >Cancel</Button>&nbsp; &nbsp;&nbsp;
+      <Button variant="contained" color="secondary" onClick={this.fileUploadHandler} >Update</Button>
       </form>
-
-
-
-      <Divider />
-      {/* <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List> */}
     </div>
-
-
   );
-
-
+  fileSelectedHandler = event =>{
+    
+    this.setState({
+      selectedFile:event.target.files[0]
+    });
+    console.log('file handler');
+  }
+  fileUploadHandler=()=>{
+    const fd= new FormData();
+    
+    fd.append('image', this.state.selectedFile);
+    // fd.append('key1', 'val1' );
+    // fd.append('key2', 'val2');
+    // axios.put('http://salesportal.com/api/customers/1',fd).then(res =>{
+    //   console.log(res);
+    //   console.log('file handler');
+    // });
+    axios.post('http://salesportal.com/api/customers',fd).then(res =>{
+      console.log(res);
+      console.log('file upload');
+    });
+  }
 
   render() {
     // let stylee = {
@@ -189,7 +154,19 @@ class EditDrawer extends Component {
     } else if (this.state.loading) {
       return (
         <Drawer anchor="right" open={true}>
-          <div style={{ width: 600 }}><h1>Loading...</h1></div>
+
+          <div style={{ width: 600 }}>
+            <h1>Loading...</h1>
+            <LoadingScreen
+              loading={true}
+              bgColor='#f1f1f1'
+              spinnerColor='#9ee5f8'
+              textColor='#676767'
+              logoSrc={logo}
+              text='Loading Please Wait!!'
+            >
+
+            </LoadingScreen></div>
         </Drawer>
       )
     }
