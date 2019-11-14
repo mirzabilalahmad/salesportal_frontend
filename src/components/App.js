@@ -7,7 +7,6 @@ import Portfolio from './Portfolio';
 import Header from './Header';
 import SearchBar from './abc';
 import ABC from './SearchBar';
-import EditDrawer from './EditDrawer'
 
 class App extends Component {
   render() {
