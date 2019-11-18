@@ -7,10 +7,10 @@ import img from '../assets/images/portfolio/portfolio3.jpg';
 
 export class Portfolio extends Component {
     state={
-        customers: [],
+        customers       : [],
         updateCustomerId: null,
-        error:null,
-        isLoaded:false
+        error           : null,
+        isLoaded        : false
     }
 
     componentDidMount() {
@@ -19,7 +19,7 @@ export class Portfolio extends Component {
           .then((result) => {
                 console.log('result: ',result)
               this.setState({
-                isLoaded:true,
+                isLoaded : true,
                 customers: result
               }, () => {
                 initializeHover();
@@ -47,7 +47,7 @@ export class Portfolio extends Component {
     }
     disableEditCustomer = ()=>{
         this.setState({
-            updateCustomerId:null
+            updateCustomerId: null
         })
 
     }
@@ -59,7 +59,7 @@ export class Portfolio extends Component {
             )
         } 
         return this.state.customers.map((customer) => {
-            return <PortfolioItem data={customer} editCustomer={this.enableEditCustomer}/>
+            return <PortfolioItem data = {customer} editCustomer = {this.enableEditCustomer}/>
         })
     }
     
@@ -67,12 +67,12 @@ export class Portfolio extends Component {
         {console.log('render called')}
         return (
             <div>
-                <section className="bg-light page-section" id="portfolio">
-                    <div className="container-fluid">
+                <section className = "bg-light page-section" id = "portfolio">
+                <div     className = "container-fluid">
 
                         <ResultBar />
-                        <div className="row mt-4">
-                        <EditDrawer customerId={this.state.updateCustomerId} disableCustomer={this.disableEditCustomer}/>
+                        <div        className  = "row mt-4">
+                        <EditDrawer customerId = {this.state.updateCustomerId} disableCustomer = {this.disableEditCustomer}/>
                         {this.renderCustomers()}
 
                         </div>
