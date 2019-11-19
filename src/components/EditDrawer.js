@@ -57,7 +57,7 @@ class EditDrawer extends Component {
   componentWillReceiveProps(newProps) {
     if (newProps.customerId) {
       
-      fetch(`http://salesportal1.local/api/customers/${newProps.customerId}/edit`)
+      fetch(`http://salesportal.com/api/customers/${newProps.customerId}/edit`)
           .then(res => res.json())
           .then((result) => {
                 console.log('result: ',result)

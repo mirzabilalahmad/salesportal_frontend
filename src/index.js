@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import './index.css';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import Checkbox from '@material-ui/core/Checkbox';
-import { red,orange,grey } from '@material-ui/core/colors';
+
+import { red,grey } from '@material-ui/core/colors';
 
 
 const mytheme = createMuiTheme({

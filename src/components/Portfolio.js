@@ -14,7 +14,7 @@ export class Portfolio extends Component {
     }
 
     componentDidMount() {
-        fetch("http://salesportal1.local/api/customers")
+        fetch("http://salesportal.com/api/customers")
           .then(res => res.json())
           .then((result) => {
                 console.log('result: ',result)
