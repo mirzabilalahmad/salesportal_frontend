@@ -9,6 +9,7 @@ import SearchBar from './abc';
 import ABC from './SearchBar';
 import Login from './login';
 import Dashboard from './dashboard';
+import { red } from '@material-ui/core/colors';
 
 const Root = () => {
   console.log('root')
@@ -24,6 +25,7 @@ const Root = () => {
 
 const checkAuth = {
   authenticate() {
+    return true;
     let expire = localStorage.getItem('time');
     let now = Date.now();
     console.log('expire', expire, now); 
@@ -45,6 +47,7 @@ function PrivateRoute({ children, ...rest }) {
     <Route
       {...rest}
       render={({ location }) =>
+    
         checkAuth.authenticate() ? (
           children
         ) : (
@@ -55,6 +58,7 @@ function PrivateRoute({ children, ...rest }) {
             }}
           />
         )
+        
       }
     />
   );

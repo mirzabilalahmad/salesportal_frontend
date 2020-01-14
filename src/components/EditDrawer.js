@@ -18,6 +18,8 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import CloseRoundIcon from '@material-ui/icons/CloseRounded';
 import EditIcon from '@material-ui/icons/Edit';
+import qs from 'qs';
+
 
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 
@@ -50,14 +52,14 @@ class EditDrawer extends Component {
     img_url     : '',
     customerId  : null,
     loading     : false,
-    selectedFile: null
+    selectedFile: null,
 
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.customerId) {
       
-      fetch(`http://salesportal.com/api/customers/${newProps.customerId}/edit`)
+      fetch(`http://salesportal1.local/api/customers/${newProps.customerId}/edit`)
           .then(res => res.json())
           .then((result) => {
                 console.log('result: ',result)
@@ -182,12 +184,6 @@ class EditDrawer extends Component {
 
           <div        style = {{ width: '50%', textAlign: "right" }}>
           <IconButton style = {{color:"white"}} onClick = {() => this.props.disableCustomer()} > <CloseRoundIcon/></IconButton>
-          {/* <Button style={{}}  onClick={() => this.props.disableCustomer()}  >
-                  <span >   <i style = {{fontSize:20,color:"white"}} className = "fa fa-close"></i></span>
-                  
-           </Button> 
-            <Button variant="contained" onClick={() => this.props.disableCustomer()}  > <CloseRoundIcon/></Button> */}
-
           </div>
         </Toolbar>
 
@@ -274,22 +270,37 @@ class EditDrawer extends Component {
   fileUploadHandler=()=>{
     console.log('clicked');
     var fd = new FormData();
-    
     fd.append('image', this.state.selectedFile);
     console.log(this.state.selectedFile);
+    console.log('state',this.state);
      fd.append('name', this.state.name );
      fd.append('location', this.state.location );
      fd.append('Industry_type', this.state.industry_type );
      fd.append('web_url', this.state.web_url);
+
      
     console.log('update request');
+    console.log('fd',fd);
      
-    axios.put('http://salesportal1.local/api/customers/' + this.state.customerId)
-    .then((res) => {
-      console.log('res');
-    })
-    .catch(err=> console.log(err));
-  }
+    axios({
+      method: 'post',
+      url: 'http://salesportal1.local/api/updatefile/' + this.state.customerId,
+      data: fd,
+      headers: {'Content-Type': 'multipart/form-data' }
+      })
+      .then(function (response) {
+        console.log('response',response);
+      })
+      .catch(function (response) {
+          //handle error
+          console.log(response);
+      });
+  //   axios.puf('http://salesportal1.local/api/customers/' + this.state.customerId, (fd))
+  //   .then((res) => {
+  //     console.log('res');
+  //   })
+  //   .catch(err=> console.log(err));
+    }
 
   render() {
 
@@ -321,8 +332,7 @@ class EditDrawer extends Component {
 
       <Drawer anchor = "right" open = {true} >
         {this.sideList()}
-        
-        {/* <div style={{width:"900"}}>adsda</div> */}
+      
       </Drawer>
 
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-
 import AppBar from '@material-ui/core/AppBar';
 import axios from 'axios';
 import TF from './utils/textField';
@@ -18,11 +17,6 @@ export class Login extends Component {
         rememberMe: false,
         credentialsError: false
     }
-    // handleBoxChange = (e) => {
-    //     const input = event.target;
-    //     const value = input.type === 'checkbox' ? input.checked : input.value;
-
-    //     this.setState({ [input.name]: value });
     // }
     handleChange = (e) => {
         
@@ -34,7 +28,7 @@ export class Login extends Component {
     loginHandler = (e) => {
         const {email, password} = this.state;
         e.preventDefault();
-        axios.post('http://salesportal.com/api/login', qs.stringify({email, password})).then(res => {
+        axios.post('http://salesportal1.local/api/login', qs.stringify({email, password})).then(res => {
             localStorage.setItem('email', res.data.email);
             localStorage.setItem('name',res.data.name);
             localStorage.setItem('role',res.data.role);

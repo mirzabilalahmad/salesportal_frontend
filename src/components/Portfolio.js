@@ -13,8 +13,8 @@ export class Portfolio extends Component {
         isLoaded        : false
     }
 
-    componentDidMount() {
-        fetch("http://salesportal.com/api/customers")
+    componentWillMount() {
+        fetch("http://salesportal1.local/api/customers")
           .then(res => res.json())
           .then((result) => {
                 console.log('result: ',result)
@@ -46,9 +46,11 @@ export class Portfolio extends Component {
 
     }
     disableEditCustomer = ()=>{
+        console.log('disableEdit Customer called');
         this.setState({
             updateCustomerId: null
         })
+        
 
     }
 

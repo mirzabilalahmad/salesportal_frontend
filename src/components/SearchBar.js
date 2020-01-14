@@ -50,7 +50,7 @@ export class SearchBar extends Component {
             <div    className = "col-xl-1  col-sm-1 nopadd ">
             <button className = "btn btn-primary searchbtn w-100">Search</button>
             </div>
-            <Portfolio />
+         
             </div>
    
 
